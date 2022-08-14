@@ -2,6 +2,7 @@
 const myMap = {
     coordinates: [],
     map: {},
+    markers: {},
 
     //Build map
     buildMap() {
@@ -16,6 +17,11 @@ const myMap = {
             minZoom: '15',
         }).addTo(this.map);
 
-        
-    }
+        // create and add geolocation marker
+        const marker = L.marker(this.coordinates)
+        marker
+        .addTo(this.map)
+        .bindPopup('<p1><b>You are here</b><br></p1>')
+        .openPopup();
+    },
 }
