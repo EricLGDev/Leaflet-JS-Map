@@ -3,6 +3,7 @@ const myMap = {
     coordinates: [],
     map: {},
     markers: {},
+    businesses: [],
 
     //Build map
     buildMap() {
@@ -24,4 +25,17 @@ const myMap = {
         .bindPopup('<p1><b>You are here</b><br></p1>')
         .openPopup();
     },
+
+    //add business markers
+    addMarkers(){
+
+    }
+}
+
+//Geolocation API = Get User Coordinates
+async function getCoords(){
+	const pos = await new Promise((resolve, reject) => {
+		navigator.geolocation.getCurrentPosition(resolve, reject)
+	});
+	return [pos.coords.latitude, pos.coords.longitude]
 }
