@@ -29,8 +29,15 @@ const myMap = {
 
     //add business markers
     addMarkers(){
-
-    }
+        for (var i = 0; i < this.businesses.length; i++) {
+            this.markers = L.marker([
+                this.businesses[i].lat,
+                this.businesses[i].long,
+            ])
+                .bindPopup(`<p1>${this.businesses[i].name}</p1>`)
+                .addTo(this.map)
+        }
+    },
 }
 
 //Geolocation API = Get User Coordinates
@@ -53,7 +60,7 @@ async function getFoursquare(business) {
 	let limit = 5
 	let lat = myMap.coordinates[0]
 	let lon = myMap.coordinates[1]
-	let response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
+	let response = await fetch(`https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
 	let data = await response.text()
 	let parsedData = JSON.parse(data)
 	let businesses = parsedData.results
