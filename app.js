@@ -39,3 +39,21 @@ async function getCoords(){
 	});
 	return [pos.coords.latitude, pos.coords.longitude]
 }
+
+async function getFoursquare(business) {
+	const options = {
+		method: 'GET',
+		headers: {
+		Accept: 'application/json',
+		Authorization: 'fsq33uy1BQlUsne2VPSeel3AJRqwTFWi53cFStWIN1QHndQ='
+		}
+	}
+	let limit = 5
+	let lat = myMap.coordinates[0]
+	let lon = myMap.coordinates[1]
+	let response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
+	let data = await response.text()
+	let parsedData = JSON.parse(data)
+	let businesses = parsedData.results
+	return businesses
+}
