@@ -1,9 +1,10 @@
 // map object
 const myMap = {
     coordinates: [],
+    businesses: [],
     map: {},
     markers: {},
-    businesses: [],
+    
 
     //Build map
     buildMap() {
@@ -40,6 +41,7 @@ async function getCoords(){
 	return [pos.coords.latitude, pos.coords.longitude]
 }
 
+//Get Foursquare businesses with API
 async function getFoursquare(business) {
 	const options = {
 		method: 'GET',
@@ -56,4 +58,26 @@ async function getFoursquare(business) {
 	let parsedData = JSON.parse(data)
 	let businesses = parsedData.results
 	return businesses
+}
+
+// Process foursquare array
+function processBusinesses(data) {
+	let businesses = data.map((element) => {
+		let location = {
+			name: element.name,
+			lat: element.geocodes.main.latitude,
+			long: element.geocodes.main.longitude
+		};
+		return location
+	})
+	return businesses
+}
+
+
+//Event handler
+//On Window Load
+window.onload = async () => {
+    const coords = await getCoords()
+    myMap.coordinates = coords
+    myMap.buildMap()
 }
